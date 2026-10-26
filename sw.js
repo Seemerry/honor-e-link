@@ -1,17 +1,19 @@
 'use strict';
 
 const CACHE_PREFIX = 'honor-e-link-';
-const CACHE_NAME = CACHE_PREFIX + 'v1';
+const CACHE_NAME = CACHE_PREFIX + 'v2';
 const APP_ROOT = new URL('./', self.location.href);
 const FILES = [
-  './', './index.html', './styles.css', './app.js', './manifest.webmanifest',
+  './', './index.html', './styles.css?v=2', './app.js?v=2', './manifest.webmanifest',
   './assets/apple-touch-icon.png', './assets/favicon-32.png',
   './assets/icon-192.png', './assets/icon-512.png',
   './assets/icon-maskable-512.png', './assets/icon.svg'
 ];
 
 self.addEventListener('install', event => {
-  event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(FILES)).then(() => self.skipWaiting()));
+  event.waitUntil(caches.open(CACHE_NAME)
+    .then(cache => cache.addAll(FILES.map(file => new Request(new URL(file, APP_ROOT), { cache: 'reload' }))))
+    .then(() => self.skipWaiting()));
 });
 
 self.addEventListener('activate', event => {
