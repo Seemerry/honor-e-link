@@ -16,6 +16,7 @@ let selectedTab = 1;
 let currentView = 'teams';
 let gesture = null;
 let lastTrigger = null;
+let multiTouch = false;
 
 function selectTab(index, focus = false) {
   selectedTab = Math.max(0, Math.min(tabs.length - 1, index));
@@ -44,10 +45,10 @@ tabs.forEach((tab, index) => {
   });
 });
 
-// Keep vertical scrolling/pinch zoom native. Only a deliberate horizontal drag
-// changes tabs; an interrupted gesture always snaps back to the selected page.
+// The page is locked. Only a deliberate one-finger horizontal drag changes tabs;
+// a short, vertical, interrupted or multi-touch gesture snaps back in place.
 pager.addEventListener('pointerdown', event => {
-  if (!event.isPrimary || event.button !== 0 || event.target.closest('button, a, input')) return;
+  if (multiTouch || !event.isPrimary || event.button !== 0 || event.target.closest('button, a, input')) return;
   gesture = { id: event.pointerId, x: event.clientX, y: event.clientY, dx: 0, started: performance.now(), horizontal: false, vertical: false };
   pager.setPointerCapture(event.pointerId);
 });
@@ -83,6 +84,31 @@ function endGesture(event, cancelled = false) {
 pager.addEventListener('pointerup', event => endGesture(event));
 pager.addEventListener('pointercancel', event => endGesture(event, true));
 pager.addEventListener('lostpointercapture', event => endGesture(event, true));
+
+function preventNativeGesture(event) {
+  if (event.cancelable) event.preventDefault();
+}
+
+// Safari may ignore viewport zoom hints. Cancel its touch/gesture defaults as
+// well as locking the layout, without cancelling a single tap that focuses input.
+document.addEventListener('touchstart', event => {
+  if (event.touches.length > 1) {
+    multiTouch = true;
+    gesture = null;
+    selectTab(selectedTab);
+    preventNativeGesture(event);
+  }
+}, { passive: false });
+document.addEventListener('touchmove', preventNativeGesture, { passive: false });
+for (const eventName of ['touchend', 'touchcancel']) {
+  document.addEventListener(eventName, event => {
+    if (event.touches.length === 0) multiTouch = false;
+  }, { passive: true });
+}
+for (const eventName of ['gesturestart', 'gesturechange', 'gestureend']) {
+  document.addEventListener(eventName, preventNativeGesture, { passive: false });
+}
+document.addEventListener('wheel', preventNativeGesture, { passive: false });
 
 // Search only the team already present in this personal, offline app.
 const sourceRow = document.querySelector('#joined-panel .team-row');

@@ -1,10 +1,10 @@
 'use strict';
 
 const CACHE_PREFIX = 'honor-e-link-';
-const CACHE_NAME = CACHE_PREFIX + 'v2';
+const CACHE_NAME = CACHE_PREFIX + 'v3';
 const APP_ROOT = new URL('./', self.location.href);
 const FILES = [
-  './', './index.html', './styles.css?v=2', './app.js?v=2', './manifest.webmanifest',
+  './', './index.html', './styles.css?v=3', './app.js?v=3', './manifest.webmanifest',
   './assets/apple-touch-icon.png', './assets/favicon-32.png',
   './assets/icon-192.png', './assets/icon-512.png',
   './assets/icon-maskable-512.png', './assets/icon.svg'
