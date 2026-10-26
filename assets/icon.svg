@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 150 150">
+  <title>Honor E Link</title>
+  <rect width="150" height="150" fill="#2869ff"/>
+  <!-- Manually redrawn Bezier contours; no reference bitmap is embedded. -->
+  <path fill="#fff" d="M68 13C87 13 103 21 108 31c7 14-4 26-18 29-8 2-14-2-18-7-3-4 0-8 5-7 9 2 20-4 23-10 4-9-9-16-23-15-16 0-25 10-28 23-3 15 1 24 13 32 11 6 21 9 26 17-18-1-32-6-42-15 8 10 23 16 51 17-11 7-30 8-46 3-17-5-24-17-25-32l-3 8c-5-19 3-36 15-47 11-10 26-14 42-11 8 1 16 4 22 9-7-7-19-11-34-12Z"/>
+  <path fill="#fff" d="M116 79.5c-6.1 0-10.5 4.2-10.5 9.7 0 3 1.2 5.4 3.7 7.3l-1.5 3.4 7.2-.5c6.1 0 11-4 11-9.8 0-5.6-4.1-10.1-9.9-10.1Z"/>
+  <path d="M112 87h7m-7 4h5" fill="none" stroke="#2869ff" stroke-width="1.5" stroke-linecap="round"/>
+  <path fill="#ff6453" d="M0 131c45-17 102-18 150-3v22H0Z"/>
+  <text x="75" y="141" text-anchor="middle" fill="#fff" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700">Link</text>
+</svg>
